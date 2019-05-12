@@ -1,18 +1,50 @@
 <workflow-app name="wfl_makefile" xmlns="uri:oozie:workflow:0.5">
-    <start to="shell-3657sd"/>
+    <start to="fork1"/>
     <kill name="Kill">
         <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>
-    <action name="shell-3657sd">
+   <fork name="fork1">
+	<path start="shell-1"/>
+	<path start="shell-2"/>
+	<path start="shell-3"/>
+	 
+   </fork>
+    <action name="shell-1">
         <shell xmlns="uri:oozie:shell-action:0.1">
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
             <exec>makefile.sh</exec>
-            <file>/user/dataexplorer1/workflows/makefile.sh</file>
+            <file>/user/dataexplorer1/workflows/shell/makefile.sh</file>
               <capture-output/>
         </shell>
-        <ok to="End"/>
+        <ok to="join1"/>
         <error to="Kill"/>
     </action>
+
+    <action name="shell-2">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>makefile2.sh</exec>
+            <file>/user/dataexplorer1/workflows/shell/makefile2.sh</file>
+              <capture-output/>
+        </shell>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
+
+    <action name="shell-3">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>makefile1.sh</exec>
+            <file>/user/dataexplorer1/workflows/shell/makefile1.sh</file>
+              <capture-output/>
+        </shell>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
+	<join name="join1" to="End"/>
     <end name="End"/>
+
 </workflow-app>
