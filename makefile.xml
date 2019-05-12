@@ -1,0 +1,18 @@
+<workflow-app name="wfl_makefile" xmlns="uri:oozie:workflow:0.5">
+    <start to="shell-3657sd"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <action name="shell-3657sd">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>makefile.sh</exec>
+            <file>/user/dataexplorer1/workflows/makefile.sh</file>
+              <capture-output/>
+        </shell>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+    <end name="End"/>
+</workflow-app>
