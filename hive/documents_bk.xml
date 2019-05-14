@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workflow-app xmlns="uri:oozie:workflow:0.2" name="hive-wf">
-<start to="hive-node"/>
+<start to="fork1"/>
+
+<kill name="fail">
+<message>Hive failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+</kill>
+
+<fork name="fork1">
+ <path start="hive-node" />
+ <path start="hive-node1"/>
+ <path start="hive-node2"/>
+ <path start="hive-node3"/>
+ <path start="hive-node4"/>
+</fork>
+
 <action name="hive-node">
 <hive xmlns="uri:oozie:hive-action:0.2">
 <job-tracker>${jobTracker}</job-tracker>
@@ -8,11 +21,56 @@
 <job-xml>hive-site.xml</job-xml>
 <script>documents_bk.hql</script>
 </hive>
-<ok to="end"/>
+<ok to="join1"/>
 <error to="fail"/>
 </action>
-<kill name="fail">
-<message>Hive failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
-</kill>
-<end name="end"/>
+
+<action name="hive-node1">
+<hive xmlns="uri:oozie:hive-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+<job-xml>hive-site.xml</job-xml>
+<script>documents_bk1.hql</script>
+</hive>
+<ok to="join1"/>
+<error to="fail"/>
+</action>
+
+<action name="hive-node2">
+<hive xmlns="uri:oozie:hive-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+<job-xml>hive-site.xml</job-xml>
+<script>documents_bk2.hql</script>
+</hive>
+<ok to="join1"/>
+<error to="fail"/>
+</action>
+
+<action name="hive-node3">
+<hive xmlns="uri:oozie:hive-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+<job-xml>hive-site.xml</job-xml>
+<script>documents_bk3.hql</script>
+</hive>
+<ok to="join1"/>
+<error to="fail"/>
+</action>
+
+<action name="hive-node4">
+<hive xmlns="uri:oozie:hive-action:0.2">
+<job-tracker>${jobTracker}</job-tracker>
+<name-node>${nameNode}</name-node>
+<job-xml>hive-site.xml</job-xml>
+<script>documents_bk4.hql</script>
+</hive>
+<ok to="join1"/>
+<error to="fail"/>
+</action>
+
+
+<join name="join1" to="End"/>
+
+<end name="End"/>
 </workflow-app>
