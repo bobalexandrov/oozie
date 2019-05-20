@@ -1,76 +1,109 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<workflow-app xmlns="uri:oozie:workflow:0.2" name="hive-wf">
-<start to="fork1"/>
+<workflow-app name="wfl_docs_backup" xmlns="uri:oozie:workflow:0.5">
+  <credentials>
+    <credential name="hcat" type="hcat">
+      <property>
+        <name>hcat.metastore.uri</name>
+        <value>thrift://dev-r01edge.c21.hadoop.td.com:9083</value>
+      </property>
+      <property>
+        <name>hcat.metastore.principal</name>
+        <value>hive/dev-r01edge.c21.hadoop.td.com@C21.HADOOP.TD.COM</value>
+      </property>
+    </credential>
+  </credentials>
+    <start to="fork1"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+   <fork name="fork1">
+    <path start="hive-b248" />
+    <path start="hive-b249" />
+    <path start="hive-b250" />
+    <path start="hive-b251" />
+    <path start="hive-b252" />
+    <path start="hive-b253" />
+    <path start="hive-b254" />
+   </fork>
 
-<kill name="fail">
-<message>Hive failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
-</kill>
+    <action name="hive-b248" cred="hcat">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <job-xml>/share/catdiim01/dev7/scripts/hive-site.xml</job-xml>
+            <script>/share/catdiim01/dev7/scripts/documents_bk.hql</script>
+        </hive>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
 
-<fork name="fork1">
- <path start="hive-node" />
- <path start="hive-node1"/>
- <path start="hive-node2"/>
- <path start="hive-node3"/>
- <path start="hive-node4"/>
-</fork>
+    <action name="hive-b249" cred="hcat">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <job-xml>/share/catdiim01/dev7/scripts/hive-site.xml</job-xml>
+            <script>/share/catdiim01/dev7/scripts/documents_bk1.hql</script>
+        </hive>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
 
-<action name="hive-node">
-<hive xmlns="uri:oozie:hive-action:0.2">
-<job-tracker>${jobTracker}</job-tracker>
-<name-node>${nameNode}</name-node>
-<job-xml>hive-site.xml</job-xml>
-<script>documents_bk.hql</script>
-</hive>
-<ok to="join1"/>
-<error to="fail"/>
-</action>
-
-<action name="hive-node1">
-<hive xmlns="uri:oozie:hive-action:0.2">
-<job-tracker>${jobTracker}</job-tracker>
-<name-node>${nameNode}</name-node>
-<job-xml>hive-site.xml</job-xml>
-<script>documents_bk1.hql</script>
-</hive>
-<ok to="join1"/>
-<error to="fail"/>
-</action>
-
-<action name="hive-node2">
-<hive xmlns="uri:oozie:hive-action:0.2">
-<job-tracker>${jobTracker}</job-tracker>
-<name-node>${nameNode}</name-node>
-<job-xml>hive-site.xml</job-xml>
-<script>documents_bk2.hql</script>
-</hive>
-<ok to="join1"/>
-<error to="fail"/>
-</action>
-
-<action name="hive-node3">
-<hive xmlns="uri:oozie:hive-action:0.2">
-<job-tracker>${jobTracker}</job-tracker>
-<name-node>${nameNode}</name-node>
-<job-xml>hive-site.xml</job-xml>
-<script>documents_bk3.hql</script>
-</hive>
-<ok to="join1"/>
-<error to="fail"/>
-</action>
-
-<action name="hive-node4">
-<hive xmlns="uri:oozie:hive-action:0.2">
-<job-tracker>${jobTracker}</job-tracker>
-<name-node>${nameNode}</name-node>
-<job-xml>hive-site.xml</job-xml>
-<script>documents_bk4.hql</script>
-</hive>
-<ok to="join1"/>
-<error to="fail"/>
-</action>
+    <action name="hive-b250" cred="hcat">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <job-xml>/share/catdiim01/dev7/scripts/hive-site.xml</job-xml>
+            <script>/share/catdiim01/dev7/scripts/documents_bk2.hql</script>
+        </hive>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
+ 
+    <action name="hive-b251" cred="hcat">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <job-xml>/share/catdiim01/dev7/scripts/hive-site.xml</job-xml>
+            <script>/share/catdiim01/dev7/scripts/documents_bk3.hql</script>
+        </hive>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
 
 
-<join name="join1" to="End"/>
+    <action name="hive-b252" cred="hcat">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <job-xml>/share/catdiim01/dev7/scripts/hive-site.xml</job-xml>
+            <script>/share/catdiim01/dev7/scripts/documents_bk4.hql</script>
+        </hive>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
 
-<end name="End"/>
+
+    <action name="hive-b253" cred="hcat">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <job-xml>/share/catdiim01/dev7/scripts/hive-site.xml</job-xml>
+            <script>/share/catdiim01/dev7/scripts/documents_bk5.hql</script>
+        </hive>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
+
+    <action name="hive-b254" cred="hcat">
+        <hive xmlns="uri:oozie:hive-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+              <job-xml>/share/catdiim01/dev7/scripts/hive-site.xml</job-xml>
+            <script>/share/catdiim01/dev7/scripts/documents_bk6.hql</script>
+        </hive>
+        <ok to="join1"/>
+        <error to="Kill"/>
+    </action>
+ <join name="join1" to="End" />
+
+    <end name="End"/>
 </workflow-app>

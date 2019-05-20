@@ -1,0 +1,329 @@
+<workflow-app name="${workflowName}" xmlns="uri:oozie:workflow:0.5"> 
+    <start to="fork1"/> 
+    <kill name="Kill" > 
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message> 
+    </kill> 
+    <fork name="fork1"> 
+      <path start="sqoopJob1"/> 
+      <path start="sqoopJob2"/> 
+      <path start="sqoopJob3"/> 
+      <path start="sqoopJob4"/> 
+      <path start="sqoopJob5"/> 
+      <path start="sqoopJob6"/> 
+      <path start="sqoopJob7"/> 
+      <path start="sqoopJob8"/> 
+      <path start="sqoopJob9"/> 
+      <path start="sqoopJob10"/> 
+      <path start="sqoopJob11"/> 
+     </fork> 
+  <action name="sqoopJob1">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename1}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir1}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob2">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename2}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir2}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob3">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename3}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir3}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob4">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename4}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir4}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob5">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename5}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir5}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob6">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename6}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir6}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob7">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename7}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir7}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob8">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename8}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir8}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob9">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename9}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir9}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob10">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename10}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir10}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+  <action name="sqoopJob11">
+      <sqoop xmlns="uri:oozie:sqoop-action:0.2"> 
+          <job-tracker>${jobTracker}</job-tracker>
+          <name-node>${nameNode}</name-node>
+          <configuration>
+              <property>
+                  <name>mapred.compress.map.output</name>
+                  <value>true</value>
+              </property>
+          </configuration>
+          <arg>import</arg>
+          <arg>--connect</arg>
+          <arg>jdbc:oracle:thin:@10.155.22.41:1515:DEVHMG44</arg>
+          <arg>--username</arg>
+          <arg>talend_dev7</arg>
+          <arg>--password</arg>
+          <arg>${password}</arg>
+          <arg>--table</arg>
+          <arg>${tablename11}</arg>
+          <arg>--target-dir</arg>
+          <arg>${tablesDirectory}/${target_dir11}</arg>
+          <arg>--delete-target-dir</arg>
+          <arg>-m</arg>
+          <arg>1</arg>
+      </sqoop>
+     <ok to="join1"/>
+     <error to="Kill"/>
+  </action>
+   <join name="join1" to="End" /> 
+   <end name="End"/> 
+</workflow-app> 

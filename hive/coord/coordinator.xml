@@ -1,12 +1,4 @@
-<coordinator-app xmlns = "uri:oozie:coordinator:0.2" name = "coord_docs_bkp" frequency = "20" start = "2019-05-15T00:52Z" end = "2019-05-15T03:00Z" timezone = "UTC">
-   
-   <controls>
-      <timeout>1</timeout>
-      <concurrency>1</concurrency>
-      <execution>FIFO</execution>
-      <throttle>1</throttle>
-   </controls>
-   
+<coordinator-app name="HourlyBackup" frequency="60" start="2019-05-14T18:30Z" end="2019-05-16T06:00Z" timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
    <action>
       <workflow>
          <app-path>${wfroot}/documents_bk.xml</app-path>
