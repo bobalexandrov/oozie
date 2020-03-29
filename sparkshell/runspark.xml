@@ -1,0 +1,19 @@
+<workflow-app name="wfl_runspark" xmlns="uri:oozie:workflow:0.5">
+    <start to="shell-28ad"/>
+    <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <action name="shell-28ad">
+        <shell xmlns="uri:oozie:shell-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>run.sh</exec>
+	    <env-var>HADOOP_USER_NAME=${wf:user()}</env-var>
+            <file>/user/dataexplorer1/workflows/sparkshell/run.sh#run.sh</file>
+              <capture-output/>
+        </shell>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+    <end name="End"/>
+</workflow-app>
