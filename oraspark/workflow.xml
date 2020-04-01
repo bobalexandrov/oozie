@@ -1,0 +1,33 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="sparktest-wf">
+    <start to="cbaOraSparkTest"/>
+    <action name="cbaOraSparkTest" retry-max="0">
+        <spark xmlns="uri:oozie:spark-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>oozie.use.system.libpath</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>oozie.launcher.mapreduce.map.java.opts</name>
+                    <value>-verbose:class</value>
+                </property>
+            </configuration>
+            <master>${sparkMaster}</master>
+            <name>${sparkJobName}</name>
+            <class>com.cba.spark.cbaOraSparkTest</class>
+            <jar>${jarPath}</jar>
+            <spark-opts>--jars ojdbc8.jar --num-executors 4 --executor-memory 4G --driver-memory 2G --conf spark.yarn.jars=*.jar --executor-cores 6</spark-opts>
+	<arg>/user/dataexplorer1/oozie/oraspark/settings.ini</arg>
+        <arg>DEBUG</arg>
+        </spark>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>cbaOraSparkTest workflow failed, error message[${wf:errorMessage(wf:lastErrorNode())}]
+        </message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
