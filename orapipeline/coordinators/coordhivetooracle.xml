@@ -1,26 +1,25 @@
 <coordinator-app name="coordHiveToOracle" 
 frequency="1440" start="2020-04-05T14:30Z" end="2020-04-05T23:59Z" 
 timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
+<datasets>
+<include>${bundle_root}/datasets.xml</include>
+</datasets>
+<input-events>
+   <data-in name="oracletable" dataset="oracletable">
+         <instance>${coord:current(0)}</instance>
+  </data-in>
+  <data-in name="hivetable" dataset="hivetable">
+         <instance>${coord:current(0)}</instance>
+  </data-in>
+</input-events>
  <action>
     <workflow>
        <app-path>${wfroot}/hivetooracle.xml</app-path>
        <configuration>
-        <property>
-	 <name>DAY</name>
-         <value>05</value>
-        </property>
-	
-        <property>
-	 <name>MONTH</name>
-         <value>05</value>
-        </property>
-	
-        <property>
-	 <name>YEAR</name>
-         <value>2020</value>
-        </property>
-       </configuration> 
+       <property>
+       </property
+       </configuration>
     </workflow>
-   </action>
+ </action>
 </coordinator-app>
 

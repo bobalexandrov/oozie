@@ -1,0 +1,21 @@
+<dataset name="hivetable" frequency="${coord:days(1)}"
+initial-instance="2020-04-05T06:00Z" timezone="GMT">
+<uri-template>${flag_root}/${YEAR}-${MONTH}-${DAY}</uri-template>
+<done-flag>_SUCCESS</done-flag>
+</dataset>
+<dataset name="hivetable" frequency="${coord:days(1)}"
+initial-instance="2020-04-05T06:00Z" timezone="GMT">
+<uri-template>${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}</uri-template>
+<done-flag>_SUCCESS</done-flag>
+</dataset>
+<dataset name="oracletable" frequency="${coord:days(1)}"
+initial-instance="2020-04-05T06:00Z" timezone="GMT">
+<uri-template>${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}</uri-template>
+<done-flag>_SUCCESS</done-flag>
+</dataset>
+</dataset>
+<dataset name="hivetooracle" frequency="${coord:days(1)}"
+initial-instance="2020-04-05T06:00Z" timezone="GMT">
+<uri-template>${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}</uri-template>
+<done-flag>_SUCCESS</done-flag>
+</dataset>
