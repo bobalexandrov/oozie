@@ -17,9 +17,18 @@ timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
        <app-path>${wfroot}/hivetooracle.xml</app-path>
        <configuration>
        <property>
+        <name>MONTH</name>
+        <value>04</value>
+       </property
+	 <property>
+        <name>DAY</name>
+        <value>05</value>
+       </property
+	 <property>
+        <name>YEAR</name>
+        <value>2020</value>
        </property
        </configuration>
     </workflow>
  </action>
 </coordinator-app>
-
