@@ -2,8 +2,28 @@
 frequency="1440" start="2020-04-05T14:30Z" end="2020-04-05T23:59Z" 
 timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
 <datasets>
-<include>${bundle_root}/datasets.xml</include>
+    <dataset name="hivetable" frequency="${coord:days(1)}"
+	initial-instance="2020-04-05T06:00Z" timezone="GMT">
+	<uri-template>${flag_root}/${YEAR}-${MONTH}-${DAY}</uri-template>
+	<done-flag>_SUCCESS</done-flag>
+    </dataset>
+    <dataset name="hivetable" frequency="${coord:days(1)}"
+	initial-instance="2020-04-05T06:00Z" timezone="GMT">
+	<uri-template>${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}</uri-template>
+	<done-flag>_SUCCESS</done-flag>
+    </dataset>
+    <dataset name="oracletable" frequency="${coord:days(1)}"
+	initial-instance="2020-04-05T06:00Z" timezone="GMT">
+	<uri-template>${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}</uri-template>
+	<done-flag>_SUCCESS</done-flag>
+     </dataset>
+     <dataset name="hivetooracle" frequency="${coord:days(1)}"
+	initial-instance="2020-04-05T06:00Z" timezone="GMT">
+	<uri-template>${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}</uri-template>
+	<done-flag>_SUCCESS</done-flag>
+    </dataset>
 </datasets>
+
 <input-events>
    <data-in name="oracletable" dataset="oracletable">
          <instance>${coord:current(0)}</instance>
@@ -16,18 +36,18 @@ timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
     <workflow>
        <app-path>${wfroot}/hivetooracle.xml</app-path>
        <configuration>
-       <property>
-        <name>MONTH</name>
-        <value>04</value>
-       </property
-	 <property>
-        <name>DAY</name>
-        <value>05</value>
-       </property
-	 <property>
-        <name>YEAR</name>
-        <value>2020</value>
-       </property
+       	<property>
+		<name>MONTH</name>
+		<value>04</value>
+       	</property>
+	<property>
+		<name>DAY</name>
+		<value>05</value>
+	</property>
+	<property>
+		<name>YEAR</name>
+		<value>2020</value>
+	</property>
        </configuration>
     </workflow>
  </action>
