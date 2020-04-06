@@ -17,15 +17,15 @@
        <configuration>
        	<property>
 		<name>MONTH</name>
-		<value>04</value>
+		<value>${coord:formatTime(coord:nominalTime(),'MM')}</value>
        	</property>
 	<property>
 		<name>DAY</name>
-		<value>05</value>
+		<value>${coord:formatTime(coord:nominalTime(),'dd')}</value>
 	</property>
 	<property>
 		<name>YEAR</name>
-		<value>2020</value>
+		<value>${coord:formatTime(coord:nominalTime(),'yyyy')}</value>
 	</property>
        </configuration>
     </workflow>
