@@ -30,7 +30,7 @@
             <class>com.cba.spark.cbaOraSparkTest</class>
             <jar>${wfroot}/lib/cbaOraSparkTest.jar</jar>
             <spark-opts>--jars ojdbc8.jar,cbaSpark.jar,cbaOraSpark.jar --num-executors 5 --executor-memory 15G --driver-memory 2G --conf spark.yarn.jars=*.jar --executor-cores 6</spark-opts>
-	<arg>/user/dataexplorer1/oozie/oraspark/settings.ini</arg>
+	<arg>${wfroot}/settings.ini</arg>
         <arg>DEBUG</arg>
         </spark>
         <ok to="hivetooracle_OK"/>
