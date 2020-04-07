@@ -1,4 +1,4 @@
-<coordinator-app name="coordHiveToOracle" frequency="${coord:days(1)}" start="${jobStart}" end="${jobEnd}" timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
+<coordinator-app name="coordHiveToOracle" frequency="${coord:days(1)}" start="${jobStart}" end="${jobEnd}" timezone="UTC" xmlns="uri:oozie:coordinator:0.2">
 <datasets>
  <include>${bundle_root}/datasets.xml</include>
 </datasets>
