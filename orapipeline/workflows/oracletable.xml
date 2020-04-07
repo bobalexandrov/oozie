@@ -1,0 +1,54 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="oracletable-wf">
+    <start to="oracletable_start"/>
+
+
+  <action name="oracletable_start">
+    <fs>
+  	 <mkdir path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}' />
+   	 <touchz path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_START' />
+    </fs>
+	<ok to="oracletable"/>
+	<error to="fail"/>
+   </action>
+
+    <action name="oracletable" retry-max="0">
+        <spark xmlns="uri:oozie:spark-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>oozie.use.system.libpath</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>oozie.launcher.mapreduce.map.java.opts</name>
+                    <value>-verbose:class</value>
+                </property>
+            </configuration>
+            <master>${sparkMaster}</master>
+            <name>${sparkJobName}</name>
+            <class>com.cba.spark.cbaOraTable</class>
+            <jar>${wfroot}/lib/cbaOraTable.jar</jar>
+            <spark-opts>--jars ojdbc8.jar,cbaSpark.jar,cbaOraSpark.jar --num-executors 5 --executor-memory 15G --driver-memory 2G --conf spark.yarn.jars=*.jar --executor-cores 6</spark-opts>
+	<arg>/user/dataexplorer1/oozie/oraspark/settings.ini</arg>
+        <arg>DEBUG</arg>
+        </spark>
+        <ok to="oracletable_OK"/>
+        <error to="fail"/>
+    </action>
+
+   <action name="oracletable_OK">
+	  <fs>
+	      <touchz path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_END' />
+	      <touchz path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_SUCCESS' />
+	  </fs>
+	  <ok to="end"/>
+	  <error to="fail"/>
+   </action>
+
+    <kill name="fail">
+        <message>oracletable workflow failed, error message[${wf:errorMessage(wf:lastErrorNode())}]
+        </message>
+    </kill>
+    <end name="end"/>
+</workflow-app>

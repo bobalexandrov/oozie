@@ -1,0 +1,30 @@
+<coordinator-app name="coordOracleTable" frequency="${coord:days(1)}" start="${jobStart}" end="${jobEnd}" timezone="UTC" xmlns="uri:oozie:coordinator:0.1">
+<datasets>
+ <include>${bundle_root}/datasets.xml</include>
+</datasets>
+<input-events>
+   <data-in name="root" dataset="root">
+         <instance>${coord:current(0)}</instance>
+  </data-in>
+</input-events>
+
+ <action>
+    <workflow>
+       <app-path>${wfroot}/oracletable.xml</app-path>
+       <configuration>
+       	<property>
+		<name>MONTH</name>
+		<value>${coord:formatTime(coord:nominalTime(),'MM')}</value>
+       	</property>
+	<property>
+		<name>DAY</name>
+		<value>${coord:formatTime(coord:nominalTime(),'dd')}</value>
+	</property>
+	<property>
+		<name>YEAR</name>
+		<value>${coord:formatTime(coord:nominalTime(),'yyyy')}</value>
+	</property>
+       </configuration>
+    </workflow>
+ </action>
+</coordinator-app>
