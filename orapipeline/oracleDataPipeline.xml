@@ -1,0 +1,11 @@
+<bundle-app name='oracleDataPipeline' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='uri:oozie:bundle:0.1'>
+<coordinator name="coordHiveTable">
+  <app-path>${coordroot}/coordhivetable.xml</app-path>
+</coordinator>
+<coordinator name="coordOracleTable">
+  <app-path>${coordroot}/coordoracletable.xml</app-path>
+</coordinator>
+<coordinator name="coordHiveToOracle">
+  <app-path>${coordroot}/coordhivetooracle.xml</app-path>
+</coordinator>
+</bundle-app>
