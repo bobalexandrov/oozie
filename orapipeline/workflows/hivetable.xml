@@ -1,0 +1,54 @@
+<workflow-app xmlns="uri:oozie:workflow:0.4" name="hivetable-wf">
+    <start to="hivetable_start"/>
+
+
+  <action name="hivetable_start">
+    <fs>
+  	 <mkdir path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}' />
+   	 <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_START' />
+    </fs>
+	<ok to="hivetable"/>
+	<error to="fail"/>
+   </action>
+
+    <action name="hivetable" retry-max="0">
+        <spark xmlns="uri:oozie:spark-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>oozie.use.system.libpath</name>
+                    <value>true</value>
+                </property>
+                <property>
+                    <name>oozie.launcher.mapreduce.map.java.opts</name>
+                    <value>-verbose:class</value>
+                </property>
+            </configuration>
+            <master>${sparkMaster}</master>
+            <name>${sparkJobName}</name>
+            <class>com.cba.spark.hiveSales</class>
+            <jar>${wfroot}/lib/hiveSales.jar</jar>
+            <spark-opts>--jars cbaSpark.jar --num-executors 5 --executor-memory 15G --driver-memory 2G --conf spark.yarn.jars=*.jar --executor-cores 6</spark-opts>
+	<arg>${wfroot}/settings.ini</arg>
+        <arg>DEBUG</arg>
+        </spark>
+        <ok to="hivetable_OK"/>
+        <error to="fail"/>
+    </action>
+
+   <action name="hivetable_OK">
+	  <fs>
+	      <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_END' />
+	      <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_SUCCESS' />
+	  </fs>
+	  <ok to="end"/>
+	  <error to="fail"/>
+   </action>
+
+    <kill name="fail">
+        <message>hivetable workflow failed, error message[${wf:errorMessage(wf:lastErrorNode())}]
+        </message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
