@@ -26,7 +26,7 @@
                 </property>
             </configuration>
             <master>${sparkMaster}</master>
-            <name>${sparkJobName}</name>
+            <name>hiveSales</name>
             <class>com.cba.spark.hiveSales</class>
             <jar>${wfroot}/lib/hiveSales.jar</jar>
             <spark-opts>--jars cbaSpark.jar --num-executors 5 --executor-memory 15G --driver-memory 2G --conf spark.yarn.jars=*.jar --executor-cores 6</spark-opts>

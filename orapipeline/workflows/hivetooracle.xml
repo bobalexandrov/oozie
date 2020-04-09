@@ -26,7 +26,7 @@
                 </property>
             </configuration>
             <master>${sparkMaster}</master>
-            <name>${sparkJobName}</name>
+            <name>oracleSalesReports</name>
             <class>com.cba.spark.oracleSalesReports</class>
             <jar>${wfroot}/lib/oracleSalesReports.jar</jar>
             <spark-opts>--jars ojdbc8.jar,cbaSpark.jar,cbaOraSpark.jar --num-executors 5 --executor-memory 15G --driver-memory 2G --conf spark.yarn.jars=*.jar --executor-cores 6</spark-opts>
