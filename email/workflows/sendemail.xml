@@ -1,0 +1,25 @@
+<workflow-app name="wfl_sendemail" xmlns="uri:oozie:workflow:0.5">
+    <start to="shell-email-send"/>
+   
+    <action name="shell-email-send">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>python</exec>
+	    <argument>-m</argument>	
+            <argument>cbasendmail</argument>
+	    <env-var>PYTHONPATH=pyBundle</env-var>
+            <file>${wfroot}/email.zip#pyBundle</file>
+	    <file>${wfroot}/sendmail.ini#sendmail.ini</file>
+            <file>${wfroot}/message.txt#message.txt</file>
+	    <file>${wfroot}/workflow.txt#workflow.txt</file>
+            <capture-output/>
+        </shell>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+   <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+   </kill>
+    <end name="End"/>
+</workflow-app>
