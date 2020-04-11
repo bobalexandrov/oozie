@@ -1,0 +1,22 @@
+<workflow-app name="wfl_genMessage" xmlns="uri:oozie:workflow:0.5">
+    <start to="shell-email-generate"/>
+   
+    <action name="shell-email-generate">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <exec>genMessage.sh</exec>
+	    <argument>${wf:name()}</argument>	
+	    <env-var>HADOOP_USER_NAME=dataexplorer1</env-var>
+            <file>${wfroot}/genMessage.sh#genMessage.sh</file>
+            <file>${wfroot}/message.txt#message.txt</file>
+            <capture-output/>
+        </shell>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+   <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+   </kill>
+    <end name="End"/>
+</workflow-app>
