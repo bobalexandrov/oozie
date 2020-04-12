@@ -1,0 +1,21 @@
+<workflow-app name="wfl_genMessage" xmlns="uri:oozie:workflow:0.5">
+    <start to="shell-email-generate"/>
+   
+    <action name="shell-email-generate">
+	<java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.genMessage</main-class>
+	    <arg>${wfroot}/message.txt</arg>	
+            <arg>${wfroot}/message1.txt</arg>
+            <file>${wfroot}/lib/genMessage.jar#genMessage.jar</file>
+            <file>${wfroot}/message.txt#message.txt</file>
+        </java>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+   <kill name="Kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+   </kill>
+    <end name="End"/>
+</workflow-app>
