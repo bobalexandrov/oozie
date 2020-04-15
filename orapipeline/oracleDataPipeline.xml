@@ -1,4 +1,7 @@
 <bundle-app name='oracleDataPipeline' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='uri:oozie:bundle:0.1'>
+<controls>
+       <kick-off-time>${kickOffTime}</kick-off-time>
+  </controls>
 <coordinator name="coordHiveTable">
   <app-path>${coordroot}/coordhivetable.xml</app-path>
 </coordinator>

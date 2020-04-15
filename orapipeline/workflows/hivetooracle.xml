@@ -1,6 +1,41 @@
 <workflow-app xmlns="uri:oozie:workflow:0.4" name="hivetooracle-wf">
     <start to="hivetooracle_start"/>
+  <action name="email_OK">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.sendMail</main-class>
+            <arg>Please be informed that workflow ${wf:name()}
+has complted successfuly.Workflow id is ${wf:id()}.
 
+Regards,
+Your Oozie scheduler
+            </arg>
+            <arg>Completion of  ${wf:name()}</arg>
+            <file>${wfroot}/lib/sendMail.jar#sendMail.jar</file>
+        </java>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
+
+    <action name="email_fail">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.sendMail</main-class>
+            <arg>Please be informed that workflow ${wf:name()}
+has failed.Workflow id is ${wf:id()}.
+Error message[${wf:errorMessage(wf:lastErrorNode())}]
+
+Regards,
+Your Oozie scheduler
+            </arg>
+            <arg>Failure of  ${wf:name()}</arg>
+            <file>${wfroot}/lib/sendMail.jar#sendMail.jar</file>
+        </java>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
 
   <action name="hivetooracle_start">
     <fs>
@@ -8,7 +43,7 @@
    	 <touchz path='${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_START' />
     </fs>
 	<ok to="hivetooracle"/>
-	<error to="fail"/>
+	<error to="email_fail"/>
    </action>
 
     <action name="hivetooracle" retry-max="0">
@@ -34,7 +69,7 @@
         <arg>DEBUG</arg>
         </spark>
         <ok to="hivetooracle_OK"/>
-        <error to="fail"/>
+        <error to="email_fail"/>
     </action>
 
    <action name="hivetooracle_OK">
@@ -42,13 +77,13 @@
 	      <touchz path='${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_END' />
 	      <touchz path='${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_SUCCESS' />
 	  </fs>
-	  <ok to="end"/>
-	  <error to="fail"/>
+	  <ok to="email_OK"/>
+	  <error to="email_fail"/>
    </action>
 
-    <kill name="fail">
+    <kill name="Kill">
         <message>hivetooracle workflow failed, error message[${wf:errorMessage(wf:lastErrorNode())}]
         </message>
     </kill>
-    <end name="end"/>
+    <end name="End"/>
 </workflow-app>

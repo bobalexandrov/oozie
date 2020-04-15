@@ -1,6 +1,24 @@
 <workflow-app xmlns="uri:oozie:workflow:0.4" name="hivetable-wf">
     <start to="hivetable_start"/>
 
+        <action name="email_fail">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.sEndMail</main-class>
+            <arg>Please be informed that workflow ${wf:name()}
+has failed.Workflow id is ${wf:id()}.
+Error message[${wf:errorMessage(wf:lastErrorNode())}]
+
+Regards,
+Your Oozie scheduler
+            </arg>
+            <arg>Failure of  ${wf:name()}</arg>
+            <file>${wfroot}/lib/sEndMail.jar#sEndMail.jar</file>
+        </java>
+        <ok to="End"/>
+        <error to="Kill"/>
+    </action>
 
   <action name="hivetable_start">
     <fs>
@@ -8,7 +26,7 @@
    	 <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_START' />
     </fs>
 	<ok to="hivetable"/>
-	<error to="fail"/>
+	<error to="email_fail"/>
    </action>
 
     <action name="hivetable" retry-max="0">
@@ -34,7 +52,7 @@
         <arg>DEBUG</arg>
         </spark>
         <ok to="hivetable_OK"/>
-        <error to="fail"/>
+        <error to="email_fail"/>
     </action>
 
    <action name="hivetable_OK">
@@ -42,13 +60,14 @@
 	      <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_END' />
 	      <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_SUCCESS' />
 	  </fs>
-	  <ok to="end"/>
-	  <error to="fail"/>
+	  <ok to="End"/>
+	  <error to="email_fail"/>
    </action>
 
-    <kill name="fail">
+
+    <kill name="Kill">
         <message>hivetable workflow failed, error message[${wf:errorMessage(wf:lastErrorNode())}]
         </message>
     </kill>
-    <end name="end"/>
+    <end name="End"/>
 </workflow-app>
