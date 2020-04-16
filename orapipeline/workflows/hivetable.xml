@@ -5,7 +5,7 @@
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
-            <main-class>com.cba.hdfs.sEndMail</main-class>
+            <main-class>com.cba.hdfs.sendMail</main-class>
             <arg>Please be informed that workflow ${wf:name()}
 has failed.Workflow id is ${wf:id()}.
 Error message[${wf:errorMessage(wf:lastErrorNode())}]
@@ -14,17 +14,20 @@ Regards,
 Your Oozie scheduler
             </arg>
             <arg>Failure of  ${wf:name()}</arg>
-            <file>${wfroot}/lib/sEndMail.jar#sEndMail.jar</file>
+            <file>${wfroot}/lib/sendMail.jar#sendMail.jar</file>
         </java>
         <ok to="End"/>
         <error to="Kill"/>
     </action>
 
   <action name="hivetable_start">
-    <fs>
-  	 <mkdir path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}' />
-   	 <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_START' />
-    </fs>
+	 <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.genFlagFile</main-class>
+            <arg>${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_START</arg>
+            <file>${wfroot}/lib/genFlagFile.jar#genFlagFile.jar</file>
+        </java>
 	<ok to="hivetable"/>
 	<error to="email_fail"/>
    </action>
@@ -56,15 +59,19 @@ Your Oozie scheduler
     </action>
 
    <action name="hivetable_OK">
-	  <fs>
-	      <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_END' />
-	      <touchz path='${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_SUCCESS' />
-	  </fs>
-	  <ok to="End"/>
-	  <error to="email_fail"/>
+         <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.genFlagFile</main-class>
+            <arg>${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_SUCCESS</arg>
+	    <arg>${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}/_END</arg>
+            <file>${wfroot}/lib/genFlagFile.jar#genFlagFile.jar</file>
+        </java>
+        <ok to="End"/>
+        <error to="email_fail"/>
    </action>
 
-
+   
     <kill name="Kill">
         <message>hivetable workflow failed, error message[${wf:errorMessage(wf:lastErrorNode())}]
         </message>

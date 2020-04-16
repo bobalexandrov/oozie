@@ -1,23 +1,5 @@
 <workflow-app xmlns="uri:oozie:workflow:0.4" name="hivetooracle-wf">
     <start to="hivetooracle_start"/>
-  <action name="email_OK">
-        <java>
-            <job-tracker>${jobTracker}</job-tracker>
-            <name-node>${nameNode}</name-node>
-            <main-class>com.cba.hdfs.sendMail</main-class>
-            <arg>Please be informed that workflow ${wf:name()}
-has complted successfuly.Workflow id is ${wf:id()}.
-
-Regards,
-Your Oozie scheduler
-            </arg>
-            <arg>Completion of  ${wf:name()}</arg>
-            <file>${wfroot}/lib/sendMail.jar#sendMail.jar</file>
-        </java>
-        <ok to="End"/>
-        <error to="Kill"/>
-    </action>
-
     <action name="email_fail">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
@@ -33,15 +15,18 @@ Your Oozie scheduler
             <arg>Failure of  ${wf:name()}</arg>
             <file>${wfroot}/lib/sendMail.jar#sendMail.jar</file>
         </java>
-        <ok to="End"/>
+        <ok to="Kill"/>
         <error to="Kill"/>
     </action>
 
   <action name="hivetooracle_start">
-    <fs>
-  	 <mkdir path='${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}' />
-   	 <touchz path='${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_START' />
-    </fs>
+	 <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.genFlagFile</main-class>
+            <arg>${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_START</arg>
+            <file>${wfroot}/lib/genFlagFile.jar#genFlagFile.jar</file>
+        </java>
 	<ok to="hivetooracle"/>
 	<error to="email_fail"/>
    </action>
@@ -73,11 +58,15 @@ Your Oozie scheduler
     </action>
 
    <action name="hivetooracle_OK">
-	  <fs>
-	      <touchz path='${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_END' />
-	      <touchz path='${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_SUCCESS' />
-	  </fs>
-	  <ok to="email_OK"/>
+	 <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.genFlagFile</main-class>
+            <arg>${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_SUCCESS</arg>
+            <arg>${flag_root}/hivetooracle/${YEAR}-${MONTH}-${DAY}/_END</arg>
+            <file>${wfroot}/lib/genFlagFile.jar#genFlagFile.jar</file>
+        </java>
+	  <ok to="End"/>
 	  <error to="email_fail"/>
    </action>
 

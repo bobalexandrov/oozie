@@ -21,10 +21,13 @@ Your Oozie scheduler
     </action>
 
   <action name="oracletable_start">
-    <fs>
-  	 <mkdir path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}' />
-   	 <touchz path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_START' />
-    </fs>
+	<java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.genFlagFile</main-class>
+            <arg>${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_START</arg>
+            <file>${wfroot}/lib/genFlagFile.jar#genFlagFile.jar</file>
+        </java>
 	<ok to="oracletable"/>
 	<error to="email_fail"/>
    </action>
@@ -56,10 +59,15 @@ Your Oozie scheduler
     </action>
 
    <action name="oracletable_OK">
-	  <fs>
-	      <touchz path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_END' />
-	      <touchz path='${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_SUCCESS' />
-	  </fs>
+	 <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>com.cba.hdfs.genFlagFile</main-class>
+            <arg>${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_SUCCESS</arg>
+            <arg>${flag_root}/oracletable/${YEAR}-${MONTH}-${DAY}/_END</arg>
+            <file>${wfroot}/lib/genFlagFile.jar#genFlagFile.jar</file>
+        </java>
+
 	  <ok to="End"/>
 	  <error to="email_fail"/>
    </action>

@@ -1,4 +1,9 @@
 <datasets>
+<dataset name="start" frequency="${coord:days(1)}"
+        initial-instance="${logsInitialInstance}" timezone="GMT">
+        <uri-template>${bundle_root}</uri-template>
+        <done-flag>_START</done-flag>
+</dataset>
 <dataset name="hivetable" frequency="${coord:days(1)}"
 	initial-instance="${logsInitialInstance}" timezone="GMT">
 	<uri-template>${flag_root}/hivetable/${YEAR}-${MONTH}-${DAY}</uri-template>

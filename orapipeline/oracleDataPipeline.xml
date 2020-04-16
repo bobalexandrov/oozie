@@ -2,6 +2,12 @@
 <controls>
        <kick-off-time>${kickOffTime}</kick-off-time>
   </controls>
+<coordinator name="coordStartDataPipeline">
+  <app-path>${coordroot}/coordStartDataPipeline.xml</app-path>
+</coordinator>
+<coordinator name="coordEndDataPipeline">
+  <app-path>${coordroot}/coordEndDataPipeline.xml</app-path>
+</coordinator>
 <coordinator name="coordHiveTable">
   <app-path>${coordroot}/coordhivetable.xml</app-path>
 </coordinator>
